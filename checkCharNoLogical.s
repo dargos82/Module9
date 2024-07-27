@@ -1,7 +1,7 @@
-#Program Name: checkChar.s
+#Program Name: checkCharNoLogical.s
 #Author: David Blossom
 #Date: 28 July 2024
-#Purpose: Check if a character is a letter or not
+#Purpose: Check if a character is a letter or not without using logical operators
 #Input: char1 - character
 #Output: output1 - if character is a letter; output2 - if character is not a letter
 
@@ -26,44 +26,35 @@ main:
     LDR r4, =char1
     LDR r4, [r4]
 
-    #if((r4>=0x41 && r4=<0x5a) || (r4>=0x61 && r4<=7a))
-    MOV r2, #0
+    #if (r4<0x41); it is not a letter
     CMP r4, #0x41
-    ADDGE r2, #1		//if r4 >= 0x41, r2 = 1
+    BLT notALetter
 
-    MOV r3, #0
+    #if (r4<=0x5A); it is a letter
     CMP r4, #0x5A
-    ADDLE r3, #1		//if r4 <= 0x5A, r3 = 1
+    BLE isALetter
 
-    AND r2, r2, r3		//if r2 and r3 are both 1, r2 = 1
-  
-    MOV r0, #0
+    #if (r4<0x61); it is not a letter
     CMP r4, #0x61
-    ADDGE r0, #1		//if r4 >= 0x61, r0 = 1
+    BLT notALetter
 
-    MOV r3, #0
+    #if (r4<=0x7A); it is a letter
     CMP r4, #0x7A
-    ADDLE r3, #1		//if r4 <= 0x7A, r3 = 1
+    BLE isALetter
 
-    AND r3, r3, r0		//if r0 and r3 are both 1, r3 = 1
-    
-    ORR r2, r2, r3		//if either r2 or r3 are 1, r2 = 1
+    isALetter:
 
-    MOV r1, #1			//r1 = 1
-    CMP r2, r1			
-    BNE Else			//if r2 != 1, branch to else (not a letter)
-    
-    	LDR r0, =output1
-    	BL printf
+	LDR r0, =output1
+	BL printf
+	B End
 
-    B EndIf
-
-    Else:
+    notALetter:
 
         LDR r0, =output2
 	BL printf
+	B End
 
-    EndIf:
+    End:
 
     #pop the stack
     LDR lr, [sp, #0]
