@@ -78,11 +78,11 @@ main:
     char1Format:   .asciz  "%c"
    
     #character value
-    char1:         .asciz
+    char1:         .space  32
 
     #output string if character is a letter
     output1:        .asciz  "\nYou entered a letter.\n"
 
     #output string if character is not a letter
-    output2:        .asciz  "You did not enter a letter.\n"
+    output2:        .asciz  "\nYou did not enter a letter.\n"
 
